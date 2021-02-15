@@ -6,7 +6,7 @@ const client = new Discord.Client();
 const prefix = "resbot.";
 
 class Game {
-  constructor (state, playerCount,resistanceCount,registeredPlayers) {
+  constructor (state, playerCount,resistanceCount,traitorCount,registeredPlayers) {
     this.state = state;
     this.playerCount = playerCount;
     this.resistanceCount = resistanceCount;
@@ -15,12 +15,14 @@ class Game {
   }
 }
 
-resistance = new Game ("stopped",0,0,0,0);
+const resistance = new Game ("stopped",0,0,0,[]);
 
+//Wait for the Discord client to be ready
 client.on('ready', () => {
     console.log('I am ready!');
   });
 
+//Command handler
 client.on("message", function(message) {
   if (message.author.bot) return;
   if (!message.content.startsWith(prefix)) return;
@@ -29,6 +31,7 @@ client.on("message", function(message) {
   const args = commandBody.split(' ');
   const command = args.shift().toLowerCase();
 
+  //Initialize a new game
   if (command === "startgame") {
     if(resistance.state !== "stopped" ) {
       message.channel.send("Game already started!");
@@ -66,6 +69,7 @@ client.on("message", function(message) {
 
   }
 
+  //Stop an ongoing game
   if (command === "stopgame") {
     message.channel.send(`Game stopped!`);
     resistance.state = "stopped";
@@ -75,8 +79,28 @@ client.on("message", function(message) {
 
   }
 
+  //Debugging command to see the state of the game and players
   if (command === "gamestate") {
-    message.channel.send(` Game state is: ${resistance.state} \n Number of players: ${resistance.playerCount} \n Number of resistance members: ${resistance.resistanceCount} \n Number of traitors: ${resistance.traitorCount}`);
+    message.channel.send(` Game state is: ${resistance.state} \n Number of players: ${resistance.playerCount} \n Number of resistance members: ${resistance.resistanceCount} \n Number of traitors: ${resistance.traitorCount} \n Players in the game: ${resistance.registeredPlayers.toString()}`);
+  }
+
+  if (command === "addme") {
+    if(resistance.state !== "started") {
+      message.reply("Game is not accepting new players! Wait for the game to end or start a new one.");
+      return;
+    }
+    else if(resistance.registeredPlayers.length >= resistance.playerCount) {
+      message.reply("Game is already full!")
+      return;
+    }
+    else if(resistance.registeredPlayers.includes(message.author)) {
+      message.reply("You are already in the game!")
+      return;
+    }
+    else {
+      resistance.registeredPlayers.push(message.author);
+      message.reply("You have been added to the game!");
+    }
   }
 
   /*
