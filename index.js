@@ -6,15 +6,16 @@ const client = new Discord.Client();
 const prefix = "resbot.";
 
 class Game {
-  constructor (state, playerCount,resistanceCount,traitorCount) {
+  constructor (state, playerCount,resistanceCount,registeredPlayers) {
     this.state = state;
     this.playerCount = playerCount;
     this.resistanceCount = resistanceCount;
     this.traitorCount = traitorCount;
+    this.registeredPlayers = registeredPlayers;
   }
 }
 
-resistance = new Game ("stopped",0,0,0);
+resistance = new Game ("stopped",0,0,0,0);
 
 client.on('ready', () => {
     console.log('I am ready!');
