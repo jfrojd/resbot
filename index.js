@@ -1,0 +1,99 @@
+const Discord = require("discord.js");
+const config = require("./config.json");
+
+const client = new Discord.Client();
+
+const prefix = "resbot.";
+
+class Game {
+  constructor (state, playerCount,resistanceCount,traitorCount) {
+    this.state = state;
+    this.playerCount = playerCount;
+    this.resistanceCount = resistanceCount;
+    this.traitorCount = traitorCount;
+  }
+}
+
+resistance = new Game ("stopped",0,0,0);
+
+client.on('ready', () => {
+    console.log('I am ready!');
+  });
+
+client.on("message", function(message) {
+  if (message.author.bot) return;
+  if (!message.content.startsWith(prefix)) return;
+
+  const commandBody = message.content.slice(prefix.length);
+  const args = commandBody.split(' ');
+  const command = args.shift().toLowerCase();
+
+  if (command === "startgame") {
+    if(resistance.state !== "stopped" ) {
+      message.channel.send("Game already started!");
+      return;
+    }
+    else if(args.length !== 1 ) {
+      message.channel.send("Incorrect amount of arguments. Please pass only one one number as player count");
+      return;
+    }
+    else if(!parseInt(args[0]) ) {
+      message.channel.send("Given playercount is not a number!");
+      return;
+    }
+    else if (args[0] < 5 || args[0] > 10) {
+      message.channel.send("Incorrect number of players, please give a number between 5 and 10");
+      return;
+    }
+    else {
+      message.channel.send(`New game started with ${args[0]} players!`);
+      resistance.state = "started";
+      resistance.playerCount = parseInt(args[0]);
+      if(resistance.playerCount === 10) {
+        resistance.traitorCount = 4;
+      }
+      else if (resistance.playerCount > 6 && resistance.playerCount < 10) {
+        resistance.traitorCount = 3;
+      }
+      else {
+        resistance.traitorCount = 2;
+      }
+
+      resistance.resistanceCount = resistance.playerCount - resistance.traitorCount;
+
+    }
+
+  }
+
+  if (command === "stopgame") {
+    message.channel.send(`Game stopped!`);
+    resistance.state = "stopped";
+    resistance.playerCount = 0;
+    resistance.resistanceCount = 0;
+    resistance.traitorCount = 0;
+
+  }
+
+  if (command === "gamestate") {
+    message.channel.send(` Game state is: ${resistance.state} \n Number of players: ${resistance.playerCount} \n Number of resistance members: ${resistance.resistanceCount} \n Number of traitors: ${resistance.traitorCount}`);
+  }
+
+  /*
+  if (command === "ping") {
+    const timeTaken = Date.now() - message.createdTimestamp;
+    message.author.send(`Pong! This message had a latency of ${timeTaken}ms.`);
+  }
+
+  if (command === "testmessage") {
+    message.channel.send("Test");
+  }
+
+  else if (command === "sum") {
+    const numArgs = args.map(x => parseFloat(x));
+    const sum = numArgs.reduce((counter, x) => counter += x);
+    message.reply(`The sum of all the arguments you provided is ${sum}!`);
+  }
+  */
+});
+
+client.login(config.BOT_TOKEN);

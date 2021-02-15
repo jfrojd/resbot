@@ -1,0 +1,28 @@
+{
+  "name": "resbot",
+  "version": "1.0.0",
+  "description": "Discord Bot for online Resitance",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jfrojd/resbot.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "resistance"
+  ],
+  "author": "reisseli",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^12.5.1"
+  },
+  "bugs": {
+    "url": "https://github.com/jfrojd/resbot/issues"
+  },
+  "homepage": "https://github.com/jfrojd/resbot#readme",
+  "devDependencies": {}
+}
