@@ -24,5 +24,7 @@
     "url": "https://github.com/jfrojd/resbot/issues"
   },
   "homepage": "https://github.com/jfrojd/resbot#readme",
-  "devDependencies": {}
+  "devDependencies": {
+    "eslint": "^7.20.0"
+  }
 }
