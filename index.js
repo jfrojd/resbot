@@ -1,19 +1,10 @@
 const Discord = require("discord.js");
 const config = require("./config.json");
+const Game = require("./src/game.js");
 
 const client = new Discord.Client();
 
 const prefix = "resbot.";
-
-class Game {
-  constructor (state, playerCount,resistanceCount,traitorCount,registeredPlayers) {
-    this.state = state;
-    this.playerCount = playerCount;
-    this.resistanceCount = resistanceCount;
-    this.traitorCount = traitorCount;
-    this.registeredPlayers = registeredPlayers;
-  }
-}
 
 const resistance = new Game ("stopped",0,0,0,[]);
 
@@ -102,23 +93,6 @@ client.on("message", function(message) {
       message.reply("You have been added to the game!");
     }
   }
-
-  /*
-  if (command === "ping") {
-    const timeTaken = Date.now() - message.createdTimestamp;
-    message.author.send(`Pong! This message had a latency of ${timeTaken}ms.`);
-  }
-
-  if (command === "testmessage") {
-    message.channel.send("Test");
-  }
-
-  else if (command === "sum") {
-    const numArgs = args.map(x => parseFloat(x));
-    const sum = numArgs.reduce((counter, x) => counter += x);
-    message.reply(`The sum of all the arguments you provided is ${sum}!`);
-  }
-  */
 });
 
 client.login(config.BOT_TOKEN);
