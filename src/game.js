@@ -1,13 +1,17 @@
-class Game {
-  constructor(state, playerCount, resistanceCount, traitorCount, registeredPlayers) {
-    this.state = state;
-    this.playerCount = playerCount;
-    this.resistanceCount = resistanceCount;
-    this.traitorCount = traitorCount;
-    this.registeredPlayers = registeredPlayers;
-  }
-}
+const fs = require('fs');
 
-const resistance = new Game ('stopped', 0, 0, 0, []);
+const initGame = () => {
+  const game = {
+    state: 'stopped',
+    playerCount: 0,
+    resistanceCount: 0,
+    traitorCount: 0,
+    registeredPlayers: [],
+  };
+  const data = JSON.stringify(game, null, 2);
 
-module.exports = resistance;
+  fs.writeFileSync('game.json', data);
+
+};
+
+exports.initGame = initGame;
