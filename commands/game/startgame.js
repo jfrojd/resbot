@@ -1,5 +1,4 @@
 const fs = require('fs');
-const resistance = require('../../game.json');
 
 module.exports = {
   name: 'startgame',
@@ -8,6 +7,9 @@ module.exports = {
   usage: '[number of players]',
   cooldown: 5,
   execute(message, args) {
+    const readData = fs.readFileSync('game.json');
+    const resistance = JSON.parse(readData);
+
     if(resistance.state !== 'stopped') {
       return message.reply('Game already started!');
     }

@@ -6,7 +6,8 @@ const initGame = () => {
     playerCount: 0,
     resistanceCount: 0,
     traitorCount: 0,
-    registeredPlayers: [],
+    availableRoles: [],
+    registeredPlayers: {},
   };
   const data = JSON.stringify(game, null, 2);
 

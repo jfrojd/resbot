@@ -1,11 +1,13 @@
 const fs = require('fs');
-const resistance = require('../../game.json');
 
 module.exports = {
   name: 'addme',
   description: 'Add a player to a game',
   cooldown: 5,
   execute(message) {
+    const readData = fs.readFileSync('game.json');
+    const resistance = JSON.parse(readData);
+
     if(resistance.state !== 'started') {
       return message.reply('Game is not accepting new players! Wait for the game to end or start a new one.');
     }
@@ -16,8 +18,8 @@ module.exports = {
     // return message.reply('You are already in the game!');
     // }
     else {
-      resistance.registeredPlayers.push(message.author.username);
-
+      resistance.registeredPlayers[message.author.username] = {};
+      resistance.registeredPlayers[message.author.username].role = 'test';
       const data = JSON.stringify(resistance, null, 2);
       fs.writeFileSync('game.json', data);
 

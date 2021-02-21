@@ -6,6 +6,7 @@ const config = require('./config.json');
 
 const prefix = 'resbot.';
 const game = require('./src/game.js');
+
 game.initGame();
 
 const client = new Discord.Client();
@@ -23,13 +24,13 @@ for (const folder of commandFolders) {
 
 const cooldowns = new Discord.Collection();
 
-// Wait for the Discord client to be ready
 client.on('ready', () => {
   console.log('I am ready!');
 });
 
 // Command handler
 client.on('message', message => {
+
   if (!message.content.startsWith(prefix) || message.author.bot) return;
 
   const args = message.content.slice(prefix.length).trim().split(/ +/);
