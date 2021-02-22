@@ -1,4 +1,5 @@
-const fs = require('fs');
+const Game = require('../../src/game.js');
+const runningGame = new Game ();
 
 
 module.exports = {
@@ -6,11 +7,9 @@ module.exports = {
   description: 'Check the status of the game',
   cooldown: 5,
   execute(message) {
-    const readData = fs.readFileSync('game.json');
-    const resistance = JSON.parse(readData);
+    const resistance = runningGame.readData();
 
-    message.channel.send(` Game state is: ${resistance.state} \n Number of players: ${resistance.playerCount} \n Number of resistance members: ${resistance.resistanceCount} \n Number of traitors: ${resistance.traitorCount} \n Players in the game: ${resistance.registeredPlayers.toString()}`);
-
+    message.channel.send(JSON.stringify(resistance, null, 2));
   },
 
 };
