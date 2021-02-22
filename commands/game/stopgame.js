@@ -1,20 +1,16 @@
-const fs = require('fs');
-const resistance = require('../../game.json');
+const Game = require('../../src/game.js');
+const runningGame = new Game ();
 
 module.exports = {
   name: 'stopgame',
   description: 'Stop a game',
   cooldown: 5,
   execute(message) {
-    if(resistance.state !== 'stopped') {
-      resistance.state = 'stopped';
-      resistance.playerCount = 0;
-      resistance.resistanceCount = 0;
-      resistance.traitorCount = 0;
-      resistance.registeredPlayers = [];
+    const resistance = runningGame.readData();
 
-      const data = JSON.stringify(resistance, null, 2);
-      fs.writeFileSync('game.json', data);
+    if(resistance.state !== 'stopped') {
+
+      runningGame.initGame();
 
       message.reply ('Game stopped!');
     }
