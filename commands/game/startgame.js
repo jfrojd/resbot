@@ -33,7 +33,7 @@ module.exports = {
         resistance.traitorCount = 2;
       }
       resistance.resistanceCount = resistance.playerCount - resistance.traitorCount;
-      resistance.availableRoles = runningGame.shuffleRoles(resistance.resistanceCount, resistance.traitorCount);
+      resistance.availableRoles = runningGame.shuffleRoles(resistance.playerCount, resistance.resistanceCount, resistance.traitorCount);
 
       runningGame.writeData(resistance);
     }
