@@ -20,9 +20,9 @@ module.exports = {
       return message.reply('Incorrect number of players, please give a number between 5 and 10');
     }
     else {
-      message.reply(`New game started with ${args[0]} players!`);
       resistance.state = 'started';
       resistance.playerCount = parseInt(args[0]);
+
       if(resistance.playerCount === 10) {
         resistance.traitorCount = 4;
       }
@@ -33,9 +33,23 @@ module.exports = {
         resistance.traitorCount = 2;
       }
       resistance.resistanceCount = resistance.playerCount - resistance.traitorCount;
-      resistance.availableRoles = runningGame.shuffleRoles(resistance.playerCount, resistance.resistanceCount, resistance.traitorCount);
+
+      for(let i = 0; i < resistance.playerCount; i++) {
+        if(i < resistance.traitorCount) {
+          resistance.availableRoles.push('traitor');
+        }
+
+        if(i < resistance.resistanceCount) {
+          resistance.availableRoles.push('resistance');
+        }
+
+      }
+
+      resistance.availableRoles = runningGame.shuffle(resistance.availableRoles);
 
       runningGame.writeData(resistance);
+
+      return message.reply(`New game started with ${args[0]} players!`);
     }
   },
 
