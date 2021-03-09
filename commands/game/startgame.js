@@ -1,5 +1,4 @@
 const Game = require('../../src/game.js');
-const runningGame = new Game ();
 
 module.exports = {
   name: 'startgame',
@@ -8,7 +7,7 @@ module.exports = {
   usage: '[number of players]',
   cooldown: 5,
   execute(message, args) {
-    const resistance = runningGame.readData();
+    const resistance = Game.readData();
 
     if(resistance.state !== 'stopped') {
       return message.reply('Game already started!');
@@ -45,9 +44,9 @@ module.exports = {
 
       }
 
-      resistance.availableRoles = runningGame.shuffle(resistance.availableRoles);
+      resistance.availableRoles = Game.shuffle(resistance.availableRoles);
 
-      runningGame.writeData(resistance);
+      Game.writeData(resistance);
 
       return message.reply(`New game started with ${args[0]} players!`);
     }

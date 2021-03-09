@@ -2,19 +2,19 @@ const fs = require('fs');
 
 class Game {
 
-  writeData(gameData) {
+  static writeData(gameData) {
     const data = JSON.stringify(gameData, null, 2);
     fs.writeFileSync('game.json', data);
 
   }
 
-  readData() {
+  static readData() {
     const readData = fs.readFileSync('game.json');
     return JSON.parse(readData);
 
   }
 
-  initGame() {
+  static initGame() {
     const gameData = {
       state: 'stopped',
       playerCount: 0,
@@ -27,7 +27,7 @@ class Game {
     this.writeData(gameData);
   }
 
-  shuffle(data) {
+  static shuffle(data) {
 
     for(let i = data.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * i);
