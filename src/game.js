@@ -27,32 +27,16 @@ class Game {
     this.writeData(gameData);
   }
 
-  shuffleRoles(playerCount, resistanceCount, traitorCount) {
+  shuffle(data) {
 
-    const availableRoles = [];
-    let i = 0;
-
-    while(i < playerCount) {
-
-      if(i < traitorCount) {
-        availableRoles.push('traitor');
-      }
-
-      if(i < resistanceCount) {
-        availableRoles.push('resistance');
-      }
-
-      i++;
-    }
-
-    for(i = availableRoles.length - 1; i > 0; i--) {
+    for(let i = data.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * i);
-      const temp = availableRoles[i];
-      availableRoles[i] = availableRoles[j];
-      availableRoles[j] = temp;
+      const temp = data[i];
+      data[i] = data[j];
+      data[j] = temp;
     }
 
-    return availableRoles;
+    return data;
 
   }
 
