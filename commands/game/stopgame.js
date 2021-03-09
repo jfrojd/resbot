@@ -1,16 +1,15 @@
 const Game = require('../../src/game.js');
-const runningGame = new Game ();
 
 module.exports = {
   name: 'stopgame',
   description: 'Stop a game',
   cooldown: 5,
   execute(message) {
-    const resistance = runningGame.readData();
+    const resistance = Game.readData();
 
     if(resistance.state !== 'stopped') {
 
-      runningGame.initGame();
+      Game.initGame();
 
       message.reply ('Game stopped!');
     }

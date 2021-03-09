@@ -4,11 +4,10 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const config = require('./config.json');
 const Game = require('./src/game.js');
-const runningGame = new Game ();
 
 const prefix = 'resbot.';
 
-runningGame.initGame();
+Game.initGame();
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
